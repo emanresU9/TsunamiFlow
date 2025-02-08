@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HW2 Code Timer</title>
+    <link rel="stylesheet" href="../css/reset.css">
+    <link rel="stylesheet" href="../css/master.css">
+    <link rel="stylesheet" href="../css/HW2.css">
+</head>
+<body>
+    <header>
+        <a class="anchor_to_c_file" href="../resources/CH2/main_c">get the code</a>
+        <h1>HW2 Code Timer</h1>
+        <ul>
+            <li><a href="../../index.html">Home</a></li>
+        </ul>
+    </header>
+    <main>
+        <section>
+            <p>
+                // name: Chris Wang<br>
+                // course: CS330<br>
+                // date: 2.8.2025<br>
+                // Homework Label: HW2_Code_Timer<br>
+                // Description: The purpose of this<br>
+                //   program is to demonstrate the <br>
+                //   use of gettimeofday. <br>
+                <br>
+                // main Pseudo-code<br>
+                // 1. Get start time<br>
+                // 2. Run test program<br>
+                // 3. Get end time<br>
+                // 4. Get diff<br>
+                // 5. Display diff<br>
+                // END<br>
+                <br>
+                #include <stdio.h><br>
+                #include <sys/time.h><br>
+                #include <stdbool.h><br>
+                #include <unistd.h><br>
+                <br>
+                #define TEST_VALUE 100000 //Used by test function<br>
+                <br>
+                <br>
+                    &emsp;// fuction delcarations /////////////////<br>
+                    &emsp;void test_function_find_primes(int range);<br>
+                    &emsp;struct timeval get_time_val();<br>
+                    &emsp;double difftime(struct timeval end, struct timeval start);<br>
+                <br>
+                <br>
+                int main() {<br>
+                    &emsp;struct timeval start, end;<br>
+                    &emsp;double diff_time;<br>
+                <br>
+                    &emsp;//get start time<br>
+                    &emsp;start = get_time_val();<br>
+                <br>
+                    &emsp;//run test<br>
+                    &emsp;test_function_find_primes(TEST_VALUE);<br>
+                <br>
+                    &emsp;//get end time<br>
+                    &emsp;end = get_time_val();<br>
+                <br>
+                    &emsp;//get elapsed_time<br>
+                    &emsp;diff_time = difftime(end, start);<br>
+                <br>
+                    &emsp;//Display<br>
+                    &emsp;printf("\n");<br>
+                    &emsp;printf("elapsed time in seconds: %f \n", diff_time);<br>
+                <br>
+                    &emsp;return 0;<br>
+                }<br>
+                <br>
+                <!-- // finds primes in range less than max<br> -->
+                void test_function_find_primes(int max) {<br>
+                    <!-- &emsp;// isPrime stays true until disproven in a loop<br> -->
+                    &emsp;bool isPrime = true;<br>
+                    <!-- &emsp;// count is for display<br> -->
+                    &emsp;int count = 0;<br>
+                    <!-- &emsp;// FOR loop integers less than max<br> -->
+                    &emsp;for (int i = 1; i <= max; i++){<br>
+                        &emsp;&emsp;// FOR loop divides i by each j<br>
+                        &emsp;&emsp;for (int j = 2; j <= i/2; j++) {<br>
+                            &emsp;&emsp;&emsp;// IF remainder is 0<br>
+                            &emsp;&emsp;&emsp;if (i%j == 0) {<br>
+                                &emsp;&emsp;&emsp;&emsp;// i is not prime <br>
+                                &emsp;&emsp;&emsp;&emsp;isPrime = false;<br>
+                                <!-- &emsp;&emsp;&emsp;&emsp;// break;<br> -->
+                                &emsp;&emsp;&emsp;&emsp;break;<br>
+                            &emsp;&emsp;&emsp;}<br>
+                        &emsp;&emsp;}<br>
+                        &emsp;&emsp;// IF isPrime stayed true<br>
+                        &emsp;&emsp;if (isPrime) {<br>
+                            &emsp;&emsp;&emsp;// increment count<br>
+                            &emsp;&emsp;&emsp;// and add newline <br>
+                            &emsp;&emsp;&emsp;// every 10 primes<br>
+                            &emsp;&emsp;&emsp;if (++count %10 == 0) {<br>
+                                &emsp;&emsp;&emsp;&emsp;printf("\n");<br>
+                            &emsp;&emsp;&emsp;}<br>
+                            &emsp;&emsp;&emsp;// display prime<br>
+                            &emsp;&emsp;&emsp;printf("%d ",i);<br>
+                        &emsp;&emsp;}<br>
+                        &emsp;&emsp;// reset isPrime to true<br>
+                        &emsp;&emsp;isPrime = true;<br>
+                    &emsp;}<br>
+                    &emsp;printf("\n");<br>
+                }<br>
+                <br>
+                //set a time val and return it<br>
+                struct timeval get_time_val(){<br>
+                    &emsp;struct timeval sys_time_micro;<br>
+                    &emsp;gettimeofday(&sys_time_micro, NULL);<br>
+                    &emsp;return sys_time_micro;<br>
+                }<br>
+                <br>
+                //find the difference between end and start and return the result<br>
+                double difftime(struct timeval end, struct timeval start) {<br>
+                    &emsp;double result;<br>
+                    &emsp;result = (end.tv_sec - start.tv_sec);<br>
+                    &emsp;result += (end.tv_usec - start.tv_usec) / (double) 1000000;<br>
+                    &emsp;return result;<br>
+                }<br>
+                <br>
+            </p>
+            <div>
+                <h3>Output</h3>
+                <img src="../media/CH2_Program_Ouput.png" alt="">
+            </div>
+        </section>
+    </main>
+</body>
+</html>

@@ -1,0 +1,69 @@
+header {
+    display: flex;
+    justify-content: space-between;
+}
+header h1 {
+    width: 15rem;
+    margin: .5rem 1rem .3rem 1rem;
+}
+header h1:nth-child(3) {
+    text-align: end;
+}
+.id-img-container {
+    width: 40rem;
+    display: flex;
+}
+.id-img-container img {
+    margin: auto auto;
+    width: 20rem;
+}
+@media screen and (max-width: 600px) {
+    header {
+        flex-direction: column;
+        justify-content: space-between;
+    }
+    header h1 {
+        width: 100%;
+        text-align: center;
+    }
+    header h1:nth-child(3) {
+        text-align: center;
+    }
+    .id-img-container {
+        width: 100%;
+    }
+}
+
+.first-section {
+    display: flex;
+}
+.assignment-directory {
+    margin-left: 2rem;
+    margin-top: 1rem;
+    width: fit-content;
+}
+table, th, td {
+    border: 1px solid rgb(66, 66, 66);
+    border-collapse: collaps;
+}
+table {
+    margin-top: 1rem;
+    margin-left: 2rem;
+}
+th, td {
+    padding: 0 .4rem 0 .4rem;
+}
+td {
+    text-align: left;
+}
+@media screen and (max-width: 600px) {
+    .assignment-directory {
+        margin: auto auto;
+        text-align: center;
+    }
+    table {
+        width:fit-content;
+        margin: 1rem 0 0 0;
+    }
+
+}
