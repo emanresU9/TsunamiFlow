@@ -20,4 +20,6 @@ header {
     color: limegreen;
     margin-bottom:2rem;
 }
-
+section {
+    font-size: 1.6rem;
+}

@@ -7,10 +7,11 @@
     <link rel="stylesheet" href="../css/reset.css">
     <link rel="stylesheet" href="../css/master.css">
     <link rel="stylesheet" href="../css/HW2.css">
+    <link rel="stylesheet" href="../css/HW3.css">
 </head>
 <body>
     <header>
-        <a class="anchor_to_c_file" href="../resources/CH3/main_cpp">get the code</a>
+        <a class="anchor_to_c_file" href="../resources/CH3/CH3_Basic_Forking_c">get the code</a>
         <h1>HW5 Forking</h1>
         <ul>
             <li><a href="../../index.html">Home</a></li>
@@ -19,60 +20,69 @@
     <main>
         <section>
             <p>
-                #include <iostream><br>
-                #include <unistd.h><br>
-                #include <sys/wait.h><br>
-                #include <thread><br>
-                #include <chrono><br><br>
-                
+                #include &lt;stdio.h&gt;<br>
+                #include &lt;stdio.h&gt;<br>
+                #include &lt;unistd.h&gt;<br>
+                #include &lt;stdlib.h&gt;<br>
+                #include &lt;sys/wait.h&gt;<br>
+                #include &lt;sys/types.h&gt;<br>
+                #include &lt;sys/time.h&gt;<br>
+                <br>
+                int cols = 3;<br>
+                int rows = 12;<br>
+                int cCount = 26;<br>
+                char c;<br>
+                pid_t PID, pid;<br>
+                <br>
+                struct timeval get_my_timeval();<br>
+                double compare_timevals(struct timeval end, struct timeval start);<br>
+                <br>
                 int main() {<br>
-                    &emsp;int waitTime; //argument<br>
-                    &emsp;int PID; //forking pid<br><br>
-                
-                    &emsp;//Allocate an array of char letters A-Z<br>
-                    &emsp;char charArr[26];<br>
-                    &emsp;for (int i = 0; i &lt; 26; i++) {<br>
-                        &emsp;&emsp;charArr[i] = (char)((int)'A' + i);
-                    }<br><br>
-                    
-                    &emsp;//Seed srand<br>
-                    &emsp;srand(time(0));<br><br>
-                
-                    &emsp;// Create 26 forks with FOR loop. In each loop <br>
-                    &emsp;// put the forked processes to sleep for <br>
-                    &emsp;// between 133 and 333 milliseconds. Then<br>
-                    &emsp;// print a char from charArray[].<br>
-                    &emsp;for (int i = 0; i &lt; 26; i++) {<br>
-                        &emsp;&emsp;// fork<br>
-                        &emsp;&emsp;PID = fork();<br>
-                        &emsp;&emsp;// IF fork is a child process<br>
-                        &emsp;&emsp;if (PID == 0) {<br>
-                            &emsp;&emsp;&emsp;//Assign waitTime<br>
-                            &emsp;&emsp;&emsp;waitTime = rand() % 200 + 133;<br>
-                            &emsp;&emsp;&emsp;//Sleep for x milliseconds<br>
-                            &emsp;&emsp;&emsp;std::this_thread::sleep_for(<br>
-                                &emsp;&emsp;&emsp;&emsp;std::chrono::milliseconds(waitTime));<br>
-                            &emsp;&emsp;&emsp;//Print a char from charArr<br>
-                            &emsp;&emsp;&emsp;std::cout &lt;&lt; charArr[i];<br>
-                            &emsp;&emsp;&emsp;//EXIT<br>
-                            &emsp;&emsp;&emsp;exit(0);<br>
+                <br>
+                    &emsp;printf("Starting program: HW3_Basic_Forking\n\n");<br>
+                    &emsp;printf("starting timer\n\n");<br>
+                <br>
+                    &emsp;struct timeval start = get_my_timeval();<br>
+                <br>
+                    &emsp;PID = getpid();<br>
+                    &emsp;for (int i = 0; i &lt; rows; i++) {<br>
+                        &emsp;&emsp;for (int j = 0; j &lt; cols; j++) {<br>
+                            &emsp;&emsp;&emsp;for (int k = 0; k &lt; 26; ++k) {<br>
+                                &emsp;&emsp;&emsp;&emsp;if (fork() == 0) {<br>
+                                    &emsp;&emsp;&emsp;&emsp;&emsp;c = (char) (k + 65);<br>
+                                    &emsp;&emsp;&emsp;&emsp;&emsp;putchar(c);<br>
+                                    &emsp;&emsp;&emsp;&emsp;&emsp;exit(0);<br>
+                                &emsp;&emsp;&emsp;&emsp;}<br>
+                            &emsp;&emsp;&emsp;}<br>
+                            &emsp;&emsp;&emsp;while(wait(NULL) != -1)<br>
+                            &emsp;&emsp;&emsp;;<br>
                         &emsp;&emsp;}<br>
-                        &emsp;&emsp;else if (PID &lt; 0) {<br>
-                            &emsp;&emsp;&emsp;perror("Fork Failed");<br>
-                            &emsp;&emsp;&emsp;exit(0);<br>
-                        &emsp;&emsp;}<br>
-                    &emsp;}<br><br>
-                
-                    //Wait FOR all 26 child processes<br>
-                    // to terminate<br>
-                    &emsp;for (int i = 0; i &lt; 26; i++){<br>
-                        &emsp;&emsp;PID = wait(NULL);<br>
+                        &emsp;&emsp;putchar('\n');<br>
                     &emsp;}<br>
-                    &emsp;std::cout&lt;&lt;std::endl;<br><br>
-                
-                    &emsp;// RETURN<br>
+                <br>
+                <br>
+                    &emsp;struct timeval end = get_my_timeval();<br>
+                    &emsp;double elapsed = compare_timevals(end, start);<br>
+                    &emsp;printf("\n\nElapsed time: %f\n\n", elapsed);<br>
+                <br>
+                    &emsp;printf("Done\n\n\n");<br>
+                <br>
+                <br>
                     &emsp;return 0;<br>
-                }                    <br><br>
+                }<br>
+                <br>
+                struct timeval get_my_timeval(){<br>
+                    &emsp;struct timeval current;<br>
+                    &emsp;gettimeofday(&current,NULL);<br>
+                    &emsp;return current;<br>
+                }<br>
+                double compare_timevals(struct timeval end, struct timeval start) {<br>
+                    &emsp;double result;<br>
+                    &emsp;result = (end.tv_sec - start.tv_sec);<br>
+                    &emsp;result += (end.tv_usec - start.tv_usec) / (double) 1000000;<br>
+                    &emsp;return result;<br>
+                }<br>
+                     
             </p>
             <div>
                 <h3>Output</h3>
